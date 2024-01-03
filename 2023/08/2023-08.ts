@@ -29,41 +29,59 @@ export const part2 = (input: string) => {
     const directions = lines[0].replaceAll('L', '1').replaceAll('R', '2').split("");
     lines.shift();
     lines.shift();
+    let numbers: number[] = [];
     const pattern = /\b\w+\b/g;
     const entries = lines.map(line => line.match(pattern));
-    entries.pop();
+    // entries.pop();
 
-    let step = 1;
-
-    // @ts-ignore
-    let linesWithNode =  entries.filter(entry => entry[0].endsWith('A'));
-    // @ts-ignore
-    let nodes = linesWithNode.map(line => line[0]);
-    //console.log(nodes)
-    let count = 0;
-    while (!nodes.every(node => node.endsWith('Z'))) {
+    for (let i = 0; i < entries.length; i++) {
         // @ts-ignore
-        let newNodes: string[] = [];
-        console.log('nodes', nodes)
-        nodes.forEach(node => {
+        if(entries[i][0].endsWith('A')){
+            let directionStep = 0
+            let count = 0
             // @ts-ignore
-            let final = (entries.find(d => d[0] === node))
-            console.log('final', final)
-            // @ts-ignore
-            newNodes.push(final[directions[count]])
-            // @ts-ignore
-            if(final[directions[count]].endsWith('Z')){
-                step++
-                // console.log(step)
+            let node = (entries[i][0])
+            while(true){
+                 count++
+
+                if(directionStep >= directions.length ) directionStep = 0;
+                // @ts-ignore
+                const myNode = entries.find(entry => entry[0] === node)
+                // @ts-ignore
+                node = myNode[directions[directionStep]]
+                console.log(directionStep, directions[directionStep], node);
+                directionStep++
+                if (node[2] == "Z") {
+                    numbers.push(count)
+                    break;
+                }
             }
-        })
-        count++
-        if(count === directions.length) {
-            count = 0
         }
-        nodes = [];
-        // @ts-ignore
-        nodes = newNodes;
     }
-    return step;
+    return findLCM(numbers)
+}
+
+// Function to find the GCD (Greatest Common Divisor)
+function gcd(a: number, b: number) {
+    while (b !== 0) {
+        let temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+// Function to find the LCM (Least Common Multiple) for an array of numbers
+function findLCM(numbers: number[]) {
+    if (numbers.length === 0) {
+        throw new Error("Array must not be empty");
+    }
+
+    let lcm = numbers[0];
+    for (let i = 1; i < numbers.length; i++) {
+        const currentNumber = numbers[i];
+        lcm = (lcm * currentNumber) / gcd(lcm, currentNumber);
+    }
+
+    return lcm;
 }

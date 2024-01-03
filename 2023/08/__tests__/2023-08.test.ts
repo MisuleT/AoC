@@ -41,7 +41,7 @@ XXX = (XXX, XXX)`
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(19185263738117);
         });
     });
 });
