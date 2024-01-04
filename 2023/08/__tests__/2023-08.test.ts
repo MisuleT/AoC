@@ -32,7 +32,8 @@ ZZZ = (ZZZ, ZZZ)`
 22B = (22C, 22C)
 22C = (22Z, 22Z)
 22Z = (22B, 22B)
-XXX = (XXX, XXX)`
+XXX = (XXX, XXX)
+`
             expect(part2(input)).toBe(6);
         });
 
