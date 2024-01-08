@@ -1,5 +1,5 @@
 import {readFileSync} from "fs";
-import {part1, part2, solveSolution} from "../2023-01";
+import {part1, part2} from "../2023-01";
 
 describe('advent of code 1', () => {
     describe('part 1', () => {
@@ -29,7 +29,7 @@ xtwone3four
 4nineeightseven2
 zoneight234
 7pqrstsixteen`
-            expect(solveSolution(input)).toBe(281);
+            expect(part2(input)).toBe(281);
         });
 
         it('real', () => {
@@ -37,7 +37,7 @@ zoneight234
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(solveSolution(input)).toBe(55108);
+            expect(part2(input)).toBe(56324);
         });
     });
 });
