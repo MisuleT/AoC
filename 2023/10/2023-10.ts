@@ -32,7 +32,34 @@ function getStep(map: string[][], startX: number, startY: number) {
             queue.push([nextX, nextY, step +1]);
         }
     }
-    return maxSteps;
+    return {maxSteps, visited};
+}
+
+const TILE_MAP: Record<string, string> = {
+    "|": "║",
+    "-": "═",
+    L: "╚",
+    J: "╝",
+    "7": "╗",
+    F: "╔",
+}
+
+function print(map: string[][], visited: Set<string>){
+    let index = 0;
+    const visetedArr = Array.from(visited);
+    const time = setInterval(()=>{
+        const position = visetedArr[index];
+        const [x, y] = position.split(',').map(Number);
+        map[y][x] = TILE_MAP?.[map[y][x]] || 'o';
+        if(index % 20 === 0){
+            const joined = map.map(line => line.join('')).join('\n');
+            console.clear();
+            console.log(joined)
+        }
+        index++;
+        if(index >= visetedArr.length) clearInterval(time);
+    }, 3)
+
 }
 
 export const part1 = (input: string) => {
@@ -42,10 +69,15 @@ export const part1 = (input: string) => {
     const startX = lineWithS?.indexOf('S')!;
     map[startY][startX] = 'F';
     const result = getStep(map, startX, startY)
-    console.log(startX, startY)
-    return result;
+    print(map, result.visited);
+    return result.maxSteps;
 }
 export const part2 = (input: string) => {
-    const lines = input.split('\n')
-    return 0;
+    const map = input.split('\n').map(line => line.split(''));
+    const lineWithS = map.find(line => line.includes('S'));
+    const startY = map.indexOf(lineWithS!);
+    const startX = lineWithS?.indexOf('S')!;
+    map[startY][startX] = 'F';
+    const result = getStep(map, startX, startY);
+    return result.maxSteps;
 }

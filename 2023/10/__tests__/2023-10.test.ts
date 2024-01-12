@@ -22,12 +22,20 @@ describe('advent of code 9', () => {
 
     describe('part 2 mock', () => {
         it('sample', () => {
-            const input = `10 13 16 21 30 45`
-            expect(part2(input)).toBe(5);
+            const input = `...........
+.S-------7.
+.|F-----7|.
+.||.....||.
+.||.....||.
+.|L-7.F-J|.
+.|..|.|..|.
+.L--J.L--J.
+...........`
+            expect(part2(input)).toBe(4);
         });
 
         it('real', () => {
-            const input = readFileSync('2023/09/input.txt', {
+            const input = readFileSync('2023/10/input.txt', {
                 encoding: 'utf8',
                 flag: 'r'
             });
