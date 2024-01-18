@@ -72,12 +72,39 @@ export const part1 = (input: string) => {
     print(map, result.visited);
     return result.maxSteps;
 }
+// ray casting / count crossing
+function countPipes(pipes: string) {
+    // Need to check only edges, other combination can be "|F7"
+    const matches = pipes.match(/[|LJ]/g);
+    return matches ? matches.length : 0
+}
+
 export const part2 = (input: string) => {
     const map = input.split('\n').map(line => line.split(''));
     const lineWithS = map.find(line => line.includes('S'));
     const startY = map.indexOf(lineWithS!);
     const startX = lineWithS?.indexOf('S')!;
+
     map[startY][startX] = 'F';
-    const result = getStep(map, startX, startY);
-    return result.maxSteps;
+
+    const {maxSteps, visited} = getStep(map, startX, startY);
+
+    let result = 0;
+
+    for (let i = 0; i < map.length; i++) {
+        let visitedPipes = '';
+        for (let j = 0; j <= map[i].length; j++) {
+
+            if(visited.has(`${j},${i}`)) { // visited[x][y]
+                visitedPipes += map[i][j]; // map[y][x]
+            } else {
+                const crossCount  = countPipes(visitedPipes)
+
+                if(crossCount % 2 === 1 ){
+                    result++
+                }
+            }
+        }
+    }
+    return result;
 }
