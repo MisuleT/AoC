@@ -21,7 +21,7 @@ describe('advent of code 11', () => {
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part1(input)).toBe(0);
+            expect(part1(input)).toBe(9445168);
         });
     });
 

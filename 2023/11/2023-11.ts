@@ -25,9 +25,23 @@ function extendRowsAndColumnsWithDots(lines: string[]) {
 
 export const part1 = (input: string) => {
     const lines = input.split('\n');
-    const extendedInput = extendRowsAndColumnsWithDots(lines).map(line => line.split(''));
-    console.log(extendedInput)
-    const result = 0
+    const universe = extendRowsAndColumnsWithDots(lines).map(line => line.split(''));
+    let galaxies = [];
+    let num = 0;
+    for (let i = 0; i < universe.length; i++) {
+        for (let j = 0; j < universe[i].length; j++) {
+            if(universe[i][j] === '#') {
+                galaxies.push({galaxy: num, column: i, row: j}) // i = column, j = row
+                num++;
+            }
+        }
+    }
+    let result = 0
+    for (let i = 0; i < galaxies.length; i++) {
+        for (let j = i+1; j < galaxies.length; j++) {
+            result += Math.abs(galaxies[j].row - galaxies[i].row) + Math.abs(galaxies[j].column - galaxies[i].column)
+        }
+    }
     return result;
 }
 
