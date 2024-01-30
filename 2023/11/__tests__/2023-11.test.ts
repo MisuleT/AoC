@@ -27,7 +27,16 @@ describe('advent of code 11', () => {
 
     describe('part 2', () => {
         it('sample', () => {
-            const input = ``
+            const input = `...#......
+.......#..
+#.........
+..........
+......#...
+.#........
+.........#
+..........
+.......#..
+#...#.....`
             expect(part2(input)).toBe(0);
         });
 
@@ -36,7 +45,7 @@ describe('advent of code 11', () => {
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(742305960572);
         });
     });
 });
