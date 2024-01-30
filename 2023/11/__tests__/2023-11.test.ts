@@ -1,5 +1,5 @@
 import {readFileSync} from "fs";
-import {part1, part2} from "../2023-11";
+import {solve} from "../2023-11";
 describe('advent of code 11', () => {
     describe('part 1', () => {
         it('sample', () => {
@@ -13,7 +13,7 @@ describe('advent of code 11', () => {
 ..........
 .......#..
 #...#.....`
-            expect(part1(input)).toBe(374);
+            expect(solve(input, 2)).toBe(374);
         });
 
         it('real', () => {
@@ -21,7 +21,7 @@ describe('advent of code 11', () => {
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part1(input)).toBe(9445168);
+            expect(solve(input, 2)).toBe(9445168);
         });
     });
 
@@ -37,7 +37,7 @@ describe('advent of code 11', () => {
 ..........
 .......#..
 #...#.....`
-            expect(part2(input)).toBe(0);
+            expect(solve(input, 10)).toBe(1030);
         });
 
         it('real', () => {
@@ -45,7 +45,7 @@ describe('advent of code 11', () => {
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part2(input)).toBe(742305960572);
+            expect(solve(input, 1000000)).toBe(742305960572);
         });
     });
 });
