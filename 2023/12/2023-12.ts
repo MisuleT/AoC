@@ -10,10 +10,10 @@ export const part1 = (input: string) => {
     return result;
 }
 
-const cache = new Map(); // This will store our results
+const cache = new Map();
 function getCombinationsCount(pattern: string, counts: number[]): number {
-    const key = `${pattern}-${counts.join()}`;  // Create a unique key for this combination of pattern and counts
-    if (cache.has(key)) return cache.get(key);   // If we've calculated this before, just return the cached result
+    const key = `${pattern}-${counts.join()}`;
+    if (cache.has(key)) return cache.get(key);
 
     let result = 0;
     const firstChar = pattern[0];
@@ -36,7 +36,7 @@ function getCombinationsCount(pattern: string, counts: number[]): number {
         }
     }
 
-    cache.set(key, result); // Store the result in our cache for future use
+    cache.set(key, result);
     return result;
 }
 
