@@ -35,15 +35,15 @@ describe('advent of code 11', () => {
 ????.#...#... 4,1,1
 ????.######..#####. 1,6,5
 ?###???????? 3,2,1`
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(525152);
         });
 
         it('real', () => {
-            const input = readFileSync('2023/11/input.txt', {
+            const input = readFileSync('2023/12/input.txt', {
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(17485169859432);
         });
     });
 });
