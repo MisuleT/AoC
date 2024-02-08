@@ -1,15 +1,10 @@
 export const part1 = (input: string) => {
     const grid = input.split('\n').map(line => line.split(''));
     for (let y = 0; y < grid.length; y++) {
-        //look for any Os
         for (let x = 0; x < grid[y].length; x++) {
-
             if (grid[y][x] === "O") {
-                //if you find one, start scanning upwards
                 for (let i = y - 1; i >= 0; i--) {
-                    //if you find a # or a O, stop scanning
                     if (grid[i][x] === "#" || grid[i][x] === "O") {
-                        //move the O to here
                         grid[y][x] = ".";
                         grid[i + 1][x] = "O";
                         break;
@@ -24,7 +19,7 @@ export const part1 = (input: string) => {
             }
         }
     }
-    console.log(grid);
+    // console.log(grid);
     let sum = 0;
     let multiplyBy = grid.length +1;
     for (let i = 0; i < grid.length; i++) {
