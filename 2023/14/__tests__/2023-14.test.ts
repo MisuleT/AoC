@@ -29,7 +29,7 @@ O.#..O.#.#
 
     describe('part 2', () => {
         it('sample', () => {
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(64);
         });
 
         it('real', () => {
