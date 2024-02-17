@@ -1,5 +1,4 @@
-function moveToNorth(grid: string[][]) {
-    let newGrid = grid;
+function moveToNorth(newGrid: string[][]) {
     for (let y = 0; y < newGrid.length; y++) {
         for (let x = 0; x < newGrid[y].length; x++) {
             if (newGrid[y][x] === "O") {
@@ -19,25 +18,19 @@ function moveToNorth(grid: string[][]) {
             }
         }
     }
-    return newGrid;
 }
 
-function moveToWest(grid: string[][]) {
-    let newGrid = grid;
-
+function moveToWest(newGrid: string[][]) {
     for (let y = 0; y < newGrid.length; y++) {
         for (let x = 0; x < newGrid[y].length; x++) {
             if (newGrid[y][x] === "O") {
-                // Check cells to the left of current cell
                 for (let i = x - 1; i >= 0; i--) {
                     if (newGrid[y][i] === "#" || newGrid[y][i] === "O") {
-                        // Found a wall or another 'O', move here
                         newGrid[y][x] = ".";
                         newGrid[y][i + 1] = "O";
                         break;
                     }
                     if (i === 0) {
-                        // Reached the left edge, can't move any further
                         newGrid[y][x] = ".";
                         newGrid[y][0] = "O";
                         break;
@@ -46,15 +39,10 @@ function moveToWest(grid: string[][]) {
             }
         }
     }
-
-    return newGrid;
 }
 
-
-function moveToEast(grid: string[][]) {
-    let newGrid = grid;
-
-    for (let y = 0; y < newGrid.length; y++) {
+function moveToEast(newGrid: string[][]) {
+     for (let y = 0; y < newGrid.length; y++) {
         for (let x = newGrid[y].length - 1; x >= 0; x--) {
             if (newGrid[y][x] === "O") {
                 for (let i = x + 1; i < newGrid[y].length; i++) {
@@ -73,70 +61,59 @@ function moveToEast(grid: string[][]) {
             }
         }
     }
-
-    return newGrid;
 }
-
 
 function moveToSouth(grid: string[][]) {
-    let newGrid = grid.reverse();
-    const moved = moveToNorth(newGrid)
-    return moveToNorth(moved).reverse()
+    grid.reverse();
+    moveToNorth(grid)
+    return grid.reverse()
 }
-
-
-
 
 export const part1 = (input: string) => {
     const grid = input.split('\n').map(line => line.split(''));
-    const moved = moveToNorth(grid);
-    let sum = 0;
-    let multiplyBy = moved.length +1;
-    for (let i = 0; i < moved.length; i++) {
-        let count = 0;
-        for (let j = 0; j < moved[i].length; j++) {
-            if (moved[i][j] === 'O') {
-                count++;
+    moveToNorth(grid);
+    return getSumResult(grid);
+}
+
+const getSumResult = (grid: string[][]): number => {
+    let sum  = 0
+    for (let y = grid.length - 1; y >= 0; y--) {
+        for (let x = 0; x < grid[y].length; x++) {
+            if (grid[y][x] === "O") {
+                sum += (grid.length - y)
             }
         }
-        multiplyBy--;
-        sum += (count * multiplyBy);
     }
     return sum;
 }
 
-function doCycle(arr: string[][]){
-    let newArr = moveToNorth(arr)
-    newArr = moveToWest(newArr);
-    newArr = moveToSouth(newArr);
-    newArr = moveToEast(newArr);
-    return newArr;
+function doCycle(grid: string[][]){
+    moveToNorth(grid);
+    moveToWest(grid);
+    moveToSouth(grid);
+    moveToEast(grid);
 }
 
-const hashTableCache = {};
+const cache = new Map();
 
-const hash = (grid: string[][]) => {
-    return grid.map(row => row.join(',')).join(';');
-}
-
-let cache = {};
 export const part2 = (input: string) => {
     const grid = input.split('\n').map(line => line.split(''));
-    let finalGrid = [...grid];
-    for(let i = 0; i < 1000000; i++) {
-        finalGrid = doCycle(finalGrid);
-    }
-    let sum = 0;
-    let multiplyBy = finalGrid.length +1;
-    for (let i = 0; i < finalGrid.length; i++) {
-        let count = 0;
-        for (let j = 0; j < finalGrid[i].length; j++) {
-            if (finalGrid[i][j] === 'O') {
-                count++;
-            }
+    let cycleCount = 0;
+
+    for(let i = 0; i < 1000000000; i++) {
+        const key = grid.map(row => row.join(',')).join(';');
+        if (cache.has(key)) {
+            let [storedIndex, storedCount] = cache.get(key);
+            let remainingCycles = 1000000000 - i;
+            let skippedCycles = Math.floor(remainingCycles / (i - storedIndex));
+            // let remainingCells = 1000000000 % (i - storedIndex);
+            i += skippedCycles * (i - storedIndex);
+            cycleCount += skippedCycles * storedCount;
+        } else {
+            cache.set(key, [i, cycleCount]);
         }
-        multiplyBy--;
-        sum += (count * multiplyBy);
+        doCycle(grid);
+        cycleCount++;
     }
-    return sum;
+    return getSumResult(grid);
 }
