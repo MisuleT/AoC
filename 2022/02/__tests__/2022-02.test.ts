@@ -15,13 +15,13 @@ C Z`
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part1(input)).toBe(0); // 10505 bad answers why?
+            expect(part1(input)).toBe(10595);
         });
     });
 
     describe('part 2 mock', () => {
         it('sample', () => {
-            expect(part2(input)).toBe(0); // bad answers why?
+            expect(part2(input)).toBe(12);
         });
 
         it('real', () => {

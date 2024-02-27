@@ -10,18 +10,34 @@ export const part1 = (input: string) => {
             .split(' ').map(Number)
         );
     let sum = 0;
+    console.log(numbers)
     for (let i = 0; i < numbers.length; i++) {
-        if(numbers[i][0] < numbers[i][1]){
-            sum += numbers[i][1] + 6;
+       const  opponentTurn = numbers[i][0];
+       const  myTurn =  numbers[i][1];
+        if(opponentTurn === myTurn){
+            sum += myTurn + 3;
         }
-        if(numbers[i][0] > numbers[i][1]){
-            sum += numbers[i][1];
+        // stone
+        if(myTurn === 1){
+            // scissors
+            if(opponentTurn === 3) sum +=myTurn + 6;
+            // paper
+            if(opponentTurn === 2) sum +=myTurn;
         }
-        if(numbers[i][0] === numbers[i][1]){
-            sum += numbers[i][1] + 3;
-
+        // paper
+        if(myTurn === 2){
+            // scissors
+            if(opponentTurn === 3) sum +=myTurn;
+            // stone
+            if(opponentTurn === 1) sum +=myTurn + 6;
         }
-        console.log(numbers[i], numbers[i][1], sum)
+        // scissors
+        if(myTurn === 3){
+            // stone
+            if(opponentTurn === 1) sum +=myTurn;
+            // paper
+            if(opponentTurn === 2) sum +=myTurn + 6;
+        }
     }
     return sum;
 };
