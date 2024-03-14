@@ -10,7 +10,6 @@ export const part1 = (input: string) => {
             .split(' ').map(Number)
         );
     let sum = 0;
-    console.log(numbers)
     for (let i = 0; i < numbers.length; i++) {
        const  opponentTurn = numbers[i][0];
        const  myTurn =  numbers[i][1];
@@ -43,5 +42,32 @@ export const part1 = (input: string) => {
 };
 
 export const part2 = (input: string) => {
-   return 0;
+    const values = input.split('\n').map(line =>  line.split(' '));
+    let sum = 0;
+    for (let i = 0; i < values.length; i++) {
+        const  opponentTurn = values[i][0];
+        const  myTurn =  values[i][1];
+        if(myTurn === 'X'){ // lose
+            switch (opponentTurn){
+                case 'A': sum  += 3; break;
+                case 'B': sum  += 1; break;
+                case 'C': sum  += 2; break;
+            }
+        }
+        if(myTurn === 'Y'){ // draw
+            switch (opponentTurn){
+                case 'A':  sum  += 3 + 1; break;
+                case 'B':  sum  += 3 + 2; break;
+                case 'C':  sum  += 3 + 3; break;
+            }
+        }
+        if(myTurn === 'Z'){ // win
+            switch (opponentTurn){
+                case 'A': sum  += 6 + 2; break;
+                case 'B':  sum  += 6 + 3;break;
+                case 'C':  sum  += 6 + 1;break;
+            }
+        }
+    }
+    return sum;
 };
