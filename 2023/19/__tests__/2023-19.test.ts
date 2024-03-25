@@ -30,13 +30,13 @@ hdj{m>838:A,pv}
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part1(input)).toBe(0);
+            expect(part1(input)).toBe(421983);
         });
     });
 
     describe('part 2', () => {
         it('sample', () => {
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(167409079868000);
         });
 
         it('real', () => {
