@@ -8,6 +8,7 @@ function parseInput(input: string): { workflows: Workflow[], parts: Part[] } {
         const [name, rulesSection] = line.split('{');
         const rules = rulesSection.slice(0, -1).split(',').map(rule => {
             const colonIndex = rule.indexOf(':');
+            if(colonIndex === -1) return { condition: '', next: rule.trim() };
             const condition = rule.slice(0, colonIndex);
             const next = rule.slice(colonIndex + 1);
             return { condition, next };
@@ -69,9 +70,54 @@ export const part1 = (input: string) => {
     }
     return total;
 }
+
+type Range = {
+    a: number[];
+    s: number[];
+    x: number[];
+    m: number[]
+};
+
+function copyRange(range: Range): Range {
+    return { a: [...range.a], s: [...range.s], x: [...range.x], m: [...range.m] };
+}
+
+function getValidRanges(workflows: Workflow[], range: Range, workflowName: string): Range[] {
+    let allRanges: Range[] = [];
+    if(workflowName === 'R') return [];
+    if(workflowName === 'A') return [copyRange(range)];
+    let workflow = workflows.find(workflow => workflow.name === workflowName);
+    for (const rule of workflow!.rules) {
+        if(!rule.condition){
+            allRanges.push(...getValidRanges(workflows, copyRange(range), rule.next));
+        }
+        const match = rule.condition.match(/(?<property>[a-z])(?<operator>[<>])(?<value>\d+)/);
+        if (match && match.groups) {
+            const { property , operator, value } = match.groups as  {property: keyof Range, operator: string, value: string};
+            if (operator === '<') {
+                const newRange = copyRange(range);
+                newRange[property] = [newRange[property][0], parseInt(value)-1];
+                allRanges.push(...getValidRanges(workflows, newRange, rule.next));
+                range[property] = [parseInt(value), range[property][1]];
+            }
+            if (operator === '>') {
+                const newRange = copyRange(range);
+                newRange[property] = [parseInt(value)+1, newRange[property][1]];
+                allRanges.push(...getValidRanges(workflows, newRange, rule.next));
+                range[property] = [range[property][0], parseInt(value)];
+            }
+        }
+    }
+    return allRanges;
+}
+
 export const part2 = (input: string) => {
     const { workflows } = parseInput(input);
-    console.log(JSON.stringify(workflows, null, 2));
-
-    return 0;
+    const range = {x: [1, 4000], m: [1, 4000], a: [1, 4000], s: [1, 4000]};
+    const validRanges = getValidRanges(workflows, range, 'in');
+    let sum = 0;
+    for (const validRange of validRanges) {
+        sum += (validRange.x[1] - validRange.x[0] +1) * (validRange.m[1] - validRange.m[0]+1) * (validRange.a[1] - validRange.a[0]+1) * (validRange.s[1] - validRange.s[0]+1);
+    }
+    return sum;
 }

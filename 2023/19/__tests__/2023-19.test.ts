@@ -44,7 +44,7 @@ hdj{m>838:A,pv}
                 encoding: 'utf8',
                 flag: 'r'
             });
-            expect(part2(input)).toBe(0);
+            expect(part2(input)).toBe(129249871135292);
         });
     });
 });
