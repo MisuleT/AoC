@@ -14,7 +14,7 @@ describe('advent of code 1', () => {
         });
 
         it('real', () => {
-            const input = readFileSync('2023/01/input.txt', {
+            const input = readFileSync('2024/01/input.txt', {
                 encoding: 'utf8',
                 flag: 'r'
             });
@@ -34,7 +34,7 @@ describe('advent of code 1', () => {
         });
 
         it('real', () => {
-            const input = readFileSync('2023/01/input.txt', {
+            const input = readFileSync('2024/01/input.txt', {
                 encoding: 'utf8',
                 flag: 'r'
             });
